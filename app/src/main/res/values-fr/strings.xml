@@ -1,6 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Harry Potter</string>
-    <string name="text_price">%d euro</string>
+
+    <string name="app_name">Henri Potier</string>
+    <string name="text_price">%d Euro</string>
 
 
     <string name="text_button_synopsis_show">Synopsis</string>
@@ -8,4 +10,6 @@
 
     <string name="text_button_buy">buy</string>
     <string name="text_button_buy_cancel">cancel</string>
+
+
 </resources>

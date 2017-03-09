@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="colorButtonCard">#28A5F8</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorGreen">#99d394</color>
+
+
 </resources>

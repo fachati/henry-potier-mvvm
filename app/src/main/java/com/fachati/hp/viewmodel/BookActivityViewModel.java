@@ -1,9 +1,7 @@
 package com.fachati.hp.viewmodel;
 
 import android.content.Context;
-import android.databinding.ObservableField;
 import android.util.Log;
-import android.view.View;
 
 import com.fachati.hp.HpApplication;
 import com.fachati.hp.model.Book;
