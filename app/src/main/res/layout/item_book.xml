@@ -27,6 +27,7 @@
             android:id="@+id/layout_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:background="@{vm.synopsisColor}"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -70,6 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="@dimen/horizontal_margin"
                 android:orientation="vertical">
 
                 <TextView
@@ -77,19 +79,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="5dp"
+                    android:textColor="@color/colorBlack"
                     android:drawableLeft="@drawable/ic_title"
-                    android:textStyle="bold"
-                    android:textSize="16dp"
+                    android:textSize="14dp"
                     app:text="@{vm.title}"/>
 
                 <TextView
                     android:id="@+id/price_book"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
                     android:drawableLeft="@drawable/ic_price"
                     android:drawablePadding="5dp"
-                    android:textStyle="bold"
-                    android:textSize="16dp"
+                    android:textSize="14dp"
                     app:text="@{vm.price}"/>
 
             </LinearLayout>

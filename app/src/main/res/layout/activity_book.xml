@@ -13,14 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:elevation="4dp"
+            android:onClick="@{vm.onclickPurchase}"
             android:layout_margin="@dimen/activity_vertical_margin"
-            android:src="@drawable/ic_purchase"/>
+            android:src="@drawable/ic_purchase"
+            android:adjustViewBounds="false"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/book_recycler_view"
@@ -32,6 +38,8 @@
             android:paddingTop="@dimen/vertical_margin_half"
             android:scrollbars="vertical"
             tools:listitem="@layout/item_book"/>
+
+
 
 
 

@@ -25,6 +25,7 @@ public class ItemBookViewModel extends BaseObservable{
     private Context context;
 
     public ObservableInt synopsisVisibility;
+    public ObservableInt synopsisColor;
     public ObservableField<String> synopsisTextButton;
     public ObservableField<String> buyTextButton;
 
@@ -35,6 +36,7 @@ public class ItemBookViewModel extends BaseObservable{
         this.book = book;
         this.context = context;
         this.synopsisVisibility = new ObservableInt(View.INVISIBLE);
+        this.synopsisColor = new ObservableInt(Color.WHITE);
         this.synopsisTextButton = new ObservableField<>();
         this.buyTextButton = new ObservableField<>();
 
@@ -70,6 +72,12 @@ public class ItemBookViewModel extends BaseObservable{
         return context.getString(R.string.text_price, book.price);
     }
 
+    /*@BindingAdapter({"background"})
+    public static void background(View view, int color) {
+        view.setBackgroundColor(color);
+        viewCard=view;
+    }*/
+
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {
         Picasso.with(view.getContext())
@@ -95,10 +103,16 @@ public class ItemBookViewModel extends BaseObservable{
 
         if(HpApplication.selectedBook.contains(book)) {
             HpApplication.selectedBook.remove(book);
+            this.synopsisColor.set(Color.WHITE);
             this.buyTextButton.set(context.getString(R.string.text_button_buy));
         }else {
             HpApplication.selectedBook.add(book);
             this.buyTextButton.set(context.getString(R.string.text_button_buy_cancel));
+            this.synopsisColor.set(context.getColor(R.color.colorGreen));
+        }
+
+        for(int i=0;i<HpApplication.selectedBook.size();i++){
+            Log.e("tag"+i,HpApplication.selectedBook.get(i).toString());
         }
     }
 

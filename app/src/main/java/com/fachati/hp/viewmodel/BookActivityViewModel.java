@@ -1,11 +1,14 @@
 package com.fachati.hp.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 
 import com.fachati.hp.HpApplication;
 import com.fachati.hp.model.Book;
 import com.fachati.hp.model.HpService;
+import com.fachati.hp.view.PriceActivity;
 
 import java.util.List;
 
@@ -69,5 +72,11 @@ public class BookActivityViewModel implements ViewModel{
 
     public interface DataListener {
         void applyBooksInRecycleView(List<Book> books);
+    }
+
+    public void onclickPurchase(View view) {
+        Log.e("click","onclickPurchase");
+        context.startActivity(new Intent(context, PriceActivity.class));
+
     }
 }
