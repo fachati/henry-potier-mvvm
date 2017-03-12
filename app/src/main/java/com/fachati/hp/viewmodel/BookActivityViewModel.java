@@ -1,14 +1,22 @@
 package com.fachati.hp.viewmodel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.BindingAdapter;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.fachati.hp.EndlessRecyclerOnScrollListener;
 import com.fachati.hp.HpApplication;
+import com.fachati.hp.R;
 import com.fachati.hp.model.Book;
 import com.fachati.hp.model.HpService;
 import com.fachati.hp.view.PriceActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -29,9 +37,11 @@ public class BookActivityViewModel implements ViewModel{
     private List<Book> books;
     private DataListener dataListener;
 
+
     public BookActivityViewModel(Context context,DataListener dataListener){
         this.context = context;
         this.dataListener = dataListener;
+
         loadBooks();
     }
 
@@ -79,4 +89,6 @@ public class BookActivityViewModel implements ViewModel{
         context.startActivity(new Intent(context, PriceActivity.class));
 
     }
+
+
 }

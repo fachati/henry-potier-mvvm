@@ -18,6 +18,7 @@
         android:layout_marginBottom="@dimen/vertical_margin_half"
         android:layout_marginLeft="@dimen/vertical_margin"
         android:layout_marginRight="@dimen/vertical_margin"
+        android:background="@drawable/layout_border"
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
         android:layout_marginTop="@dimen/vertical_margin_half"
@@ -33,7 +34,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp">
-
                 <ImageView
                     android:id="@+id/cover_book"
                     android:layout_width="match_parent"
@@ -71,6 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+
                 android:layout_marginTop="@dimen/horizontal_margin"
                 android:orientation="vertical">
 
@@ -78,8 +79,9 @@
                     android:id="@+id/title_book"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="5dp"
+
                     android:textColor="@color/colorBlack"
+                    android:drawablePadding="5dp"
                     android:drawableLeft="@drawable/ic_title"
                     android:textSize="14dp"
                     app:text="@{vm.title}"/>

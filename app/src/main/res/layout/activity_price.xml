@@ -49,16 +49,55 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_price1"
                     android:textSize="18dp"
+                    android:gravity="center_vertical"
                     android:textColor="@color/colorWhite"
-                    android:text="prix initial"
+                    android:text="@string/text_total"
                     android:layout_weight="3"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
-                    android:text="18 euro"
+                    android:gravity="end"
+                    app:text="@{vm.synopsisTextInitialPrice}"
+                    android:textSize="18dp"
+                    android:layout_weight="7"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:elevation="4dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:background="@color/colorWhite">
+
+            </View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:visibility="@{vm.percentageOfferVisibility}">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:drawableLeft="@drawable/ic_offer"
+                    android:textColor="@color/colorWhite"
+                    android:text="@string/text_offer_percentage"
+                    android:layout_weight="3"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    app:text="@{vm.percentageTextInitialPrice}"
                     android:gravity="end"
                     android:textSize="18dp"
                     android:layout_weight="7"/>
@@ -67,20 +106,24 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:visibility="@{vm.minusOfferVisibility}">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_offer"
                     android:textColor="@color/colorWhite"
-                    android:text="prix initial"
+                    android:text="@string/text_offer_minus"
                     android:layout_weight="3"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
-                    android:text="18 euro"
+                    app:text="@{vm.minusTextInitialPrice}"
                     android:gravity="end"
                     android:textSize="18dp"
                     android:layout_weight="7"/>
@@ -89,47 +132,43 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:visibility="@{vm.sliceOfferVisibility}">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:textSize="18dp"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_offer"
                     android:textColor="@color/colorWhite"
-                    android:text="prix initial"
+                    android:text="@string/text_offer_slice"
                     android:layout_weight="3"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
-                    android:text="18 euro"
+                    app:text="@{vm.sliceTextInitialPrice}"
                     android:gravity="end"
                     android:textSize="18dp"
                     android:layout_weight="7"/>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:textColor="@color/colorWhite"
-                    android:text="prix initial"
-                    android:layout_weight="3"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
-                    android:text="18 euro"
-                    android:gravity="end"
-                    android:textSize="18dp"
-                    android:layout_weight="7"/>
-
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorButtonCard"
+                app:text="@{vm.lastPriceTextInitialPrice}"
+                android:gravity="center_vertical"
+                android:background="@drawable/layout_border"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:textSize="24dp"
+                android:layout_weight="7"/>
 
         </LinearLayout>
     </LinearLayout>

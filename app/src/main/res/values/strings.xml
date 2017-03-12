@@ -3,9 +3,22 @@
     <string name="text_price">%d euro</string>
 
 
+    <string name="titleActivityPrice">Purchase</string>
+    <string name="titleActivityBook">Books</string>
+
     <string name="text_button_synopsis_show">Synopsis</string>
     <string name="text_button_synopsis_hide">Hide</string>
 
     <string name="text_button_buy">buy</string>
     <string name="text_button_buy_cancel">cancel</string>
+
+
+    <string name="text_total">Total</string>
+    <string name="text_offer_percentage">Percentage</string>
+    <string name="text_offer_minus">Minus</string>
+    <string name="text_offer_slice">Slice</string>
+
+
+
+
 </resources>

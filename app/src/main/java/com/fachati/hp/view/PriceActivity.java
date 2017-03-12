@@ -6,13 +6,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.fachati.hp.BookAdapter;
 import com.fachati.hp.BookInPriceAdapter;
 import com.fachati.hp.R;
 import com.fachati.hp.databinding.ActivityPriceBinding;
 import com.fachati.hp.model.Book;
-import com.fachati.hp.viewmodel.BookActivityViewModel;
-import com.fachati.hp.viewmodel.ItemBookInPriceViewModel;
 import com.fachati.hp.viewmodel.PriceActivityViewModel;
 
 import java.util.List;
@@ -21,7 +18,7 @@ import java.util.List;
 public class PriceActivity extends AppCompatActivity implements PriceActivityViewModel.DataListenerPrice{
 
     private String TAG="BookActivity";
-    private ActivityPriceBinding binding;
+    public static ActivityPriceBinding binding;
     private PriceActivityViewModel priceActivityViewModel;
 
     @Override
@@ -33,6 +30,10 @@ public class PriceActivity extends AppCompatActivity implements PriceActivityVie
         priceActivityViewModel = new PriceActivityViewModel(this,this);
         binding.setVm(priceActivityViewModel);
         setupRecyclerView(binding.bookRecyclerView);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.actionbar_space_icon_price);
+        getSupportActionBar().setTitle(getString(R.string.titleActivityPrice));
 
     }
 

@@ -11,8 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.fachati.hp.BookInPriceAdapter;
 import com.fachati.hp.HpApplication;
 import com.fachati.hp.R;
+import com.fachati.hp.databinding.ActivityPriceBinding;
 import com.fachati.hp.model.Book;
 import com.fachati.hp.view.PriceActivity;
 import com.squareup.picasso.Picasso;
@@ -56,9 +58,21 @@ public class ItemBookInPriceViewModel extends BaseObservable{
                 .into(view);
     }
 
-    public interface DataListener {
-        void applyBooksInRecycleView(List<Book> books);
+    public void onClickRemove(View view) {
+        Log.e("click","onClickBuy");
+        HpApplication.selectedBook.remove(book);
+        BookInPriceAdapter adapter =
+                (BookInPriceAdapter) PriceActivity.binding.bookRecyclerView.getAdapter();
+        adapter.setRepositories(HpApplication.selectedBook);
+        adapter.notifyDataSetChanged();
+
+
+
+
     }
+
+
+
 
 
 }

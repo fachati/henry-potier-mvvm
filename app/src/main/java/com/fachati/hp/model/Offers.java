@@ -63,4 +63,8 @@ public class Offers implements Parcelable{
     public int hashCode() {
         return Arrays.hashCode(offers);
     }
+
+    public Offer[] getOffers() {
+        return offers;
+    }
 }

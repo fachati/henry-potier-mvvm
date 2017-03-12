@@ -4,12 +4,21 @@
     <string name="app_name">Henri Potier</string>
     <string name="text_price">%d Euro</string>
 
+    <string name="titleActivityPrice">Achat</string>
+    <string name="titleActivityBook">Livres</string>
+
 
     <string name="text_button_synopsis_show">Synopsis</string>
-    <string name="text_button_synopsis_hide">Hide</string>
+    <string name="text_button_synopsis_hide">Cacher</string>
 
-    <string name="text_button_buy">buy</string>
-    <string name="text_button_buy_cancel">cancel</string>
+    <string name="text_button_buy">Acheter</string>
+    <string name="text_button_buy_cancel">Annuler</string>
+
+
+    <string name="text_total">Total</string>
+    <string name="text_offer_percentage">Pourcentage</string>
+    <string name="text_offer_minus">Moins</string>
+    <string name="text_offer_slice">Part</string>
 
 
 </resources>

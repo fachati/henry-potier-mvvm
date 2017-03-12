@@ -10,17 +10,18 @@ import android.os.Parcelable;
 public class Offer implements Parcelable {
 
     public String type;
-    public String value;
-    public String sliceValue;
+    public int value;
+    public int sliceValue;
 
     public Offer(){
 
     }
 
+
     protected Offer(Parcel in) {
         type = in.readString();
-        value = in.readString();
-        sliceValue = in.readString();
+        value = in.readInt();
+        sliceValue = in.readInt();
     }
 
     public static final Creator<Offer> CREATOR = new Creator<Offer>() {
@@ -36,6 +37,27 @@ public class Offer implements Parcelable {
     };
 
     @Override
+    public String toString() {
+        return "Offer{" +
+                "type='" + type + '\'' +
+                ", value='" + value + '\'' +
+                ", sliceValue='" + sliceValue + '\'' +
+                '}';
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public int getSliceValue() {
+        return sliceValue;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -43,37 +65,7 @@ public class Offer implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(type);
-        parcel.writeString(value);
-        parcel.writeString(sliceValue);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Offer)) return false;
-
-        Offer offer = (Offer) o;
-
-        if (!type.equals(offer.type)) return false;
-        if (!value.equals(offer.value)) return false;
-        return sliceValue.equals(offer.sliceValue);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = type.hashCode();
-        result = 31 * result + value.hashCode();
-        result = 31 * result + sliceValue.hashCode();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Offer{" +
-                "type='" + type + '\'' +
-                ", value='" + value + '\'' +
-                ", sliceValue='" + sliceValue + '\'' +
-                '}';
+        parcel.writeInt(value);
+        parcel.writeInt(sliceValue);
     }
 }

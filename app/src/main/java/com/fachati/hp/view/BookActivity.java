@@ -1,13 +1,14 @@
 package com.fachati.hp.view;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+
 import android.support.v7.widget.RecyclerView;
 
 import com.fachati.hp.BookAdapter;
+import com.fachati.hp.EndlessRecyclerOnScrollListener;
 import com.fachati.hp.R;
 import com.fachati.hp.databinding.ActivityBookBinding;
 import com.fachati.hp.model.Book;
@@ -31,13 +32,21 @@ public class BookActivity extends AppCompatActivity implements BookActivityViewM
         bookActivityViewModel = new BookActivityViewModel(this,this);
         binding.setVm(bookActivityViewModel);
         setupRecyclerView(binding.bookRecyclerView);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.actionbar_space_icon_book);
+        getSupportActionBar().setTitle(getString(R.string.titleActivityBook));
 
     }
 
+    boolean loading=true;
     private void setupRecyclerView(RecyclerView recyclerView) {
         BookAdapter adapter = new BookAdapter();
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager));
     }
 
     @Override
