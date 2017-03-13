@@ -17,7 +17,6 @@ import java.util.List;
 
 public class PriceActivity extends AppCompatActivity implements PriceActivityViewModel.DataListenerPrice{
 
-    private String TAG="BookActivity";
     public static ActivityPriceBinding binding;
     private PriceActivityViewModel priceActivityViewModel;
 

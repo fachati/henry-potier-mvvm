@@ -1,36 +1,27 @@
 package com.fachati.hp.viewmodel;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
-import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.fachati.hp.BookInPriceAdapter;
-import com.fachati.hp.HpApplication;
+import com.fachati.hp.Events;
+import com.fachati.hp.Application;
 import com.fachati.hp.R;
-import com.fachati.hp.databinding.ActivityPriceBinding;
 import com.fachati.hp.model.Book;
 import com.fachati.hp.view.PriceActivity;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
-public class ItemBookInPriceViewModel extends BaseObservable{
+public class ItemBookInPriceViewModel extends BaseObservable {
 
     private Book book;
     private Context context;
 
-
     public ItemBookInPriceViewModel(Context context , Book book) {
         this.book = book;
         this.context = context;
-
     }
 
     public void setBook(Book book) {
@@ -59,18 +50,14 @@ public class ItemBookInPriceViewModel extends BaseObservable{
     }
 
     public void onClickRemove(View view) {
-        Log.e("click","onClickBuy");
-        HpApplication.selectedBook.remove(book);
+        Application.selectedBook.remove(book);
         BookInPriceAdapter adapter =
                 (BookInPriceAdapter) PriceActivity.binding.bookRecyclerView.getAdapter();
-        adapter.setRepositories(HpApplication.selectedBook);
+        adapter.setRepositories(Application.selectedBook);
         adapter.notifyDataSetChanged();
 
-
-
-
+        Application.get(context).bus().send(new Events.ChangedListNotify());
     }
-
 
 
 

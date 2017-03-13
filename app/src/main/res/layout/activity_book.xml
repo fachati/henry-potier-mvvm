@@ -14,6 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:visibility="@{vm.errorVisibility}"
+            android:src="@drawable/ic_error"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
 
 
         <android.support.design.widget.FloatingActionButton
@@ -23,6 +31,7 @@
             android:layout_alignParentBottom="true"
             android:elevation="4dp"
             android:onClick="@{vm.onclickPurchase}"
+            app:visibility="@{vm.buttonPurchaseVisibility}"
             android:layout_margin="@dimen/activity_vertical_margin"
             android:src="@drawable/ic_purchase"
             android:adjustViewBounds="false"
@@ -33,6 +42,7 @@
             android:id="@+id/book_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:clipToPadding="false"
             android:paddingBottom="@dimen/vertical_margin_half"
             android:paddingTop="@dimen/vertical_margin_half"

@@ -3,21 +3,25 @@ package com.fachati.hp.viewmodel;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
-import android.databinding.ObservableChar;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 
-import com.fachati.hp.HpApplication;
+import com.fachati.hp.Events;
+import com.fachati.hp.Application;
 import com.fachati.hp.R;
 import com.fachati.hp.model.Book;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 public class ItemBookViewModel extends BaseObservable{
 
@@ -28,6 +32,8 @@ public class ItemBookViewModel extends BaseObservable{
     public ObservableInt synopsisColor;
     public ObservableField<String> synopsisTextButton;
     public ObservableField<String> buyTextButton;
+
+    private Subscription busSubscription;
 
 
 
@@ -43,6 +49,30 @@ public class ItemBookViewModel extends BaseObservable{
         this.synopsisTextButton.set(context.getString(R.string.text_button_synopsis_show));
         this.buyTextButton.set(context.getString(R.string.text_button_buy));
 
+        busSubscription = Application.get().bus().toObserverable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        new Action1<Object>() {
+                            @Override
+                            public void call(Object o) {
+                                handlerBus(o);
+                            }
+                        }
+                );
+
+    }
+
+    private void handlerBus(Object o) {
+        if (o instanceof Events.UpdateListBookOnResume) {
+
+            List<Book> listSelectedBook= Application.selectedBook;
+            if(!listSelectedBook.contains(book)){
+                this.synopsisVisibility.set(View.INVISIBLE);
+                this.synopsisColor.set(Color.WHITE);
+                this.synopsisTextButton.set(context.getString(R.string.text_button_synopsis_show));
+                this.buyTextButton.set(context.getString(R.string.text_button_buy));
+            }
+        }
     }
 
     public void setBook(Book book) {
@@ -51,10 +81,7 @@ public class ItemBookViewModel extends BaseObservable{
     }
 
     public String getTitle(){
-        String title;
-        int index=book.title.indexOf(' ',7);
-        title=book.title.substring(0,index)+book.title.substring(index,book.title.length());
-        return title;
+        return book.title;
     }
 
     public String getSynopsis(){
@@ -72,11 +99,6 @@ public class ItemBookViewModel extends BaseObservable{
         return context.getString(R.string.text_price, book.price);
     }
 
-    /*@BindingAdapter({"background"})
-    public static void background(View view, int color) {
-        view.setBackgroundColor(color);
-        viewCard=view;
-    }*/
 
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {
@@ -86,7 +108,6 @@ public class ItemBookViewModel extends BaseObservable{
     }
 
     public void onClickShowSynopsis(View view) {
-        Log.e("click","onClickShowSynopsis");
         if(synopsisVisibility.get()==View.VISIBLE) {
             synopsisVisibility.set(View.INVISIBLE);
             synopsisTextButton.set(context.getString(R.string.text_button_synopsis_show));
@@ -99,25 +120,20 @@ public class ItemBookViewModel extends BaseObservable{
     }
 
     public void onClickBuy(View view) {
-        Log.e("click","onClickBuy");
-
-        if(HpApplication.selectedBook.contains(book)) {
-            HpApplication.selectedBook.remove(book);
+        if(Application.selectedBook.contains(book)) {
+            Application.selectedBook.remove(book);
             this.synopsisColor.set(Color.WHITE);
             this.buyTextButton.set(context.getString(R.string.text_button_buy));
         }else {
-            HpApplication.selectedBook.add(book);
+            Application.selectedBook.add(book);
             this.buyTextButton.set(context.getString(R.string.text_button_buy_cancel));
             this.synopsisColor.set(context.getColor(R.color.colorGreen));
         }
 
-        for(int i=0;i<HpApplication.selectedBook.size();i++){
-            Log.e("tag"+i,HpApplication.selectedBook.get(i).toString());
+        for(int i = 0; i< Application.selectedBook.size(); i++){
+            Log.e("tag"+i, Application.selectedBook.get(i).toString());
         }
     }
-
-
-
 
 
 }

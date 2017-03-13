@@ -7,7 +7,6 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -33,5 +32,4 @@ public interface HpService {
             return retrofit.create(HpService.class);
         }
     }
-
 }

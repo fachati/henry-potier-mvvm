@@ -1,6 +1,5 @@
 package com.fachati.hp;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.fachati.hp.model.Book;
@@ -16,14 +15,33 @@ import rx.schedulers.Schedulers;
  * Created by fachati on 08/03/17.
  */
 
-public class HpApplication extends Application{
+public class Application extends android.app.Application {
 
     private HpService service;
     private Scheduler defaultSubscribeScheduler;
     public static List<Book> selectedBook;
+    private static Application instance;
 
-    public static HpApplication get(Context context) {
-        return (HpApplication) context.getApplicationContext();
+    private RxBus bus;
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+        bus = new RxBus();
+        this.selectedBook=new ArrayList<>();
+    }
+
+    public static Application get() {
+        return instance;
+    }
+
+
+    public RxBus bus() {
+        return bus;
+    }
+
+    public static Application get(Context context) {
+        return (Application) context.getApplicationContext();
     }
 
     public HpService getService() {
@@ -34,21 +52,10 @@ public class HpApplication extends Application{
         return service;
     }
 
-    //For setting mocks during testing
-    public void setService(HpService service) {
-        this.service = service;
-    }
-
     public Scheduler defaultSubscribeScheduler() {
         if (defaultSubscribeScheduler == null) {
             defaultSubscribeScheduler = Schedulers.io();
         }
         return defaultSubscribeScheduler;
     }
-
-    //User to change scheduler from tests
-    public void setDefaultSubscribeScheduler(Scheduler scheduler) {
-        this.defaultSubscribeScheduler = scheduler;
-    }
-
 }

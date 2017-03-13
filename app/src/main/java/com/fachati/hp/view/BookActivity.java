@@ -19,7 +19,6 @@ import java.util.List;
 
 public class BookActivity extends AppCompatActivity implements BookActivityViewModel.DataListener{
 
-    private String TAG="BookActivity";
     private ActivityBookBinding binding;
     private BookActivityViewModel bookActivityViewModel;
 
@@ -38,12 +37,9 @@ public class BookActivity extends AppCompatActivity implements BookActivityViewM
 
     }
 
-    boolean loading=true;
     private void setupRecyclerView(RecyclerView recyclerView) {
         BookAdapter adapter = new BookAdapter();
         recyclerView.setAdapter(adapter);
-
-
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager));
@@ -57,9 +53,18 @@ public class BookActivity extends AppCompatActivity implements BookActivityViewM
         adapter.notifyDataSetChanged();
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         bookActivityViewModel.destroy();
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        bookActivityViewModel.resume();
+    }
+
+
 }

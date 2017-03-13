@@ -7,4 +7,5 @@ package com.fachati.hp.viewmodel;
 public interface ViewModel {
 
     void destroy();
+    void resume();
 }

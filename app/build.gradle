@@ -38,6 +38,7 @@ dependencies {
     compile dependencies.retrofitAdapterRxJava
     compile dependencies.picasso
     compile dependencies.rxAndroid
+    compile 'io.reactivex:rxjava:1.1.6'
     compile dependencies.circleImageView
 
     testCompile dependencies.jUnit

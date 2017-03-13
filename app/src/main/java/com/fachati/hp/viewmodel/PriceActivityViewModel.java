@@ -1,30 +1,25 @@
 package com.fachati.hp.viewmodel;
 
 import android.content.Context;
-import android.content.Intent;
-import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.fachati.hp.HpApplication;
+
+import com.fachati.hp.Events;
+import com.fachati.hp.Application;
 import com.fachati.hp.model.Book;
 import com.fachati.hp.model.HpService;
 import com.fachati.hp.model.OfferEnum;
 import com.fachati.hp.model.Offers;
-import com.fachati.hp.view.PriceActivity;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Created by fachati on 08/03/17.
@@ -49,6 +44,9 @@ public class PriceActivityViewModel implements ViewModel{
     public ObservableInt minusOfferVisibility;
     public ObservableInt percentageOfferVisibility;
 
+    private Subscription busSubscription;
+
+
     public PriceActivityViewModel(Context context,DataListenerPrice dataListener){
         this.context = context;
         this.dataListener = dataListener;
@@ -63,7 +61,21 @@ public class PriceActivityViewModel implements ViewModel{
 
         this.synopsisTextInitialPrice = new ObservableField<>();
         this.synopsisTextInitialPrice.set(getTotalPrice()+" €");
+
+
         loadOffers();
+
+
+        busSubscription = Application.get(context).bus().toObserverable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        new Action1<Object>() {
+                            @Override
+                            public void call(Object o) {
+                                handlerBus(o);
+                            }
+                        }
+                );
 
     }
 
@@ -74,9 +86,14 @@ public class PriceActivityViewModel implements ViewModel{
         context = null;
     }
 
+    @Override
+    public void resume() {
+
+    }
+
     private void loadOffers() {
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
-        HpApplication application = HpApplication.get(context);
+        Application application = Application.get();
         HpService service = application.getService();
         subscription = service.commercialOffer(getIsbnSelectedBooks())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -84,14 +101,17 @@ public class PriceActivityViewModel implements ViewModel{
                 .subscribe(new Subscriber<Offers>() {
                     @Override
                     public void onCompleted() {
-                        if (dataListener != null) dataListener.applyBooksInRecycleView(HpApplication.selectedBook);
+                        if (dataListener != null) dataListener.applyBooksInRecycleView(Application.selectedBook);
 
 
                     }
 
                     @Override
                     public void onError(Throwable error) {
-                        Log.e(TAG, "Error loading GitHub repos ", error);
+                        minusOfferVisibility.set(View.INVISIBLE);
+                        sliceOfferVisibility.set(View.INVISIBLE);
+                        percentageOfferVisibility.set(View.INVISIBLE);
+                        lastPriceTextInitialPrice.set(00+" €");
                     }
 
                     @Override
@@ -106,19 +126,20 @@ public class PriceActivityViewModel implements ViewModel{
 
     public String getIsbnSelectedBooks(){
         String isbnParams = "";
-        if(HpApplication.selectedBook.size()>0){
-            if(HpApplication.selectedBook.size()==1)
-                isbnParams=HpApplication.selectedBook.get(0).getIsbn();
+        if(Application.selectedBook.size()>0){
+            if(Application.selectedBook.size()==1)
+                isbnParams= Application.selectedBook.get(0).getIsbn();
             else{
-                isbnParams=HpApplication.selectedBook.get(0).getIsbn();
-                for(int i=1;i<HpApplication.selectedBook.size();i++)
-                    isbnParams=isbnParams+","+HpApplication.selectedBook.get(i).getIsbn();
+                isbnParams= Application.selectedBook.get(0).getIsbn();
+                for(int i = 1; i< Application.selectedBook.size(); i++)
+                    isbnParams=isbnParams+","+ Application.selectedBook.get(i).getIsbn();
             }
             Log.e(TAG,isbnParams);
         }
-
         return isbnParams;
     }
+
+
 
 
     public interface DataListenerPrice {
@@ -127,40 +148,48 @@ public class PriceActivityViewModel implements ViewModel{
 
     public void offersApply(){
 
+        minusOfferVisibility.set(View.INVISIBLE);
+        sliceOfferVisibility.set(View.INVISIBLE);
+        percentageOfferVisibility.set(View.INVISIBLE);
+
         int lastPrice=getTotalPrice();
         for(int i=0;i<this.offers.getOffers().length;i++){
             if(offers.getOffers()[i].getType().compareTo(OfferEnum.MINUS.getText())==0){
-                this.minusOfferVisibility.set(View.VISIBLE);
-                this.minusTextInitialPrice.set(offers.getOffers()[i].getValue()+" €");
+                minusTextInitialPrice.set(offers.getOffers()[i].getValue()+" €");
+                minusOfferVisibility.set(View.VISIBLE);
                 lastPrice=lastPrice-offers.getOffers()[i].getValue();
+
             }else if(offers.getOffers()[i].getType().compareTo(OfferEnum.SLICE.getText())==0
                     && (getTotalPrice() >= offers.getOffers()[i].getSliceValue())){
-                this.sliceOfferVisibility.set(View.VISIBLE);
-                this.sliceTextInitialPrice.set(offers.getOffers()[i].getValue()+" €");
+                sliceTextInitialPrice.set(offers.getOffers()[i].getValue()+" €");
+                sliceOfferVisibility.set(View.VISIBLE);
                 lastPrice=lastPrice-offers.getOffers()[i].getValue();
+
             }else if(offers.getOffers()[i].getType().compareTo(OfferEnum.PERCENTAGE.getText())==0){
-                this.percentageOfferVisibility.set(View.VISIBLE);
-                this.percentageTextInitialPrice.set(offers.getOffers()[i].getValue()+" €");
+                percentageTextInitialPrice.set(offers.getOffers()[i].getValue()+" €");
+                percentageOfferVisibility.set(View.VISIBLE);
                 lastPrice=lastPrice-offers.getOffers()[i].getValue();
             }
             lastPriceTextInitialPrice.set(lastPrice+" €");
-
         }
     }
 
     public int getTotalPrice(){
         int totalPrice=0;
 
-        for(int i=0;i<HpApplication.selectedBook.size();i++){
-            totalPrice=totalPrice+HpApplication.selectedBook.get(i).getPrice();
+        for(int i = 0; i< Application.selectedBook.size(); i++){
+            totalPrice=totalPrice+ Application.selectedBook.get(i).getPrice();
         }
         return totalPrice;
     }
 
 
-
-
-
+    private void handlerBus(Object o) {
+        if (o instanceof Events.ChangedListNotify) {
+            synopsisTextInitialPrice.set(getTotalPrice()+" €");
+            loadOffers();
+        }
+    }
 
 
 }

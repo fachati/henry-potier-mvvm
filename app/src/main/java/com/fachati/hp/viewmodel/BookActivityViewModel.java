@@ -1,28 +1,22 @@
 package com.fachati.hp.viewmodel;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.BindingAdapter;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.databinding.ObservableInt;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-
-import com.fachati.hp.EndlessRecyclerOnScrollListener;
-import com.fachati.hp.HpApplication;
-import com.fachati.hp.R;
+import com.fachati.hp.Events;
+import com.fachati.hp.Application;
 import com.fachati.hp.model.Book;
 import com.fachati.hp.model.HpService;
 import com.fachati.hp.view.PriceActivity;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Created by fachati on 08/03/17.
@@ -37,12 +31,39 @@ public class BookActivityViewModel implements ViewModel{
     private List<Book> books;
     private DataListener dataListener;
 
+    public ObservableInt errorVisibility;
+    public ObservableInt buttonPurchaseVisibility;
+
+    private Subscription busSubscription;
+
 
     public BookActivityViewModel(Context context,DataListener dataListener){
         this.context = context;
         this.dataListener = dataListener;
+        this.errorVisibility = new ObservableInt(View.INVISIBLE);
+        this.buttonPurchaseVisibility = new ObservableInt(View.INVISIBLE);
+
+        busSubscription = Application.get().bus().toObserverable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        new Action1<Object>() {
+                            @Override
+                            public void call(Object o) {
+                                handlerBus(o);
+                            }
+                        }
+                );
 
         loadBooks();
+    }
+
+    private void handlerBus(Object o) {
+        if (o instanceof Events.ScrollDirection) {
+            if(((Events.ScrollDirection) o).direction==0)
+                buttonPurchaseVisibility.set(View.INVISIBLE);
+            else if(((Events.ScrollDirection) o).direction==1)
+                buttonPurchaseVisibility.set(View.VISIBLE);
+        }
     }
 
     @Override
@@ -52,9 +73,14 @@ public class BookActivityViewModel implements ViewModel{
         context = null;
     }
 
+    @Override
+    public void resume() {
+        Application.get().bus().send(new Events.UpdateListBookOnResume());
+    }
+
     private void loadBooks() {
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
-        HpApplication application = HpApplication.get(context);
+        Application application = Application.get(context);
         HpService service = application.getService();
         subscription = service.booksList()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -67,7 +93,9 @@ public class BookActivityViewModel implements ViewModel{
 
                     @Override
                     public void onError(Throwable error) {
-                        Log.e(TAG, "Error loading GitHub repos ", error);
+                        //Log.e(TAG,  error.toString());
+                        errorVisibility.set(View.VISIBLE);
+                        buttonPurchaseVisibility.set(View.INVISIBLE);
                     }
 
                     @Override
@@ -75,6 +103,7 @@ public class BookActivityViewModel implements ViewModel{
                         for(int i=0;i<books.size();i++){
                             Log.i(TAG, "Repos loaded " + books.get(i).toString());
                         }
+                        buttonPurchaseVisibility.set(View.VISIBLE);
                         BookActivityViewModel.this.books = books;
                     }
                 });
@@ -85,7 +114,6 @@ public class BookActivityViewModel implements ViewModel{
     }
 
     public void onclickPurchase(View view) {
-        Log.e("click","onclickPurchase");
         context.startActivity(new Intent(context, PriceActivity.class));
 
     }
