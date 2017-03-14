@@ -1,4 +1,4 @@
-package com.fachati.hp;
+package com.fachati.hp.eventBus;
 
 
 public class Events {
@@ -21,6 +21,13 @@ public class Events {
 
     public static class UpdateListBookOnResume {
         public UpdateListBookOnResume() {
+        }
+    }
+
+    public static class ShowDialogSynopsis {
+        public final String synopsis;
+        public ShowDialogSynopsis(String synopsis) {
+            this.synopsis = synopsis;
         }
     }
 

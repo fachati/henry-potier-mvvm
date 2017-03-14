@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 
-import com.fachati.hp.Events;
+import com.fachati.hp.eventBus.Events;
 import com.fachati.hp.Application;
 import com.fachati.hp.R;
 import com.fachati.hp.model.Book;
@@ -28,7 +28,7 @@ public class ItemBookViewModel extends BaseObservable{
     private Book book;
     private Context context;
 
-    public ObservableInt synopsisVisibility;
+
     public ObservableInt synopsisColor;
     public ObservableField<String> synopsisTextButton;
     public ObservableField<String> buyTextButton;
@@ -41,11 +41,11 @@ public class ItemBookViewModel extends BaseObservable{
     public ItemBookViewModel(Context context ,Book book) {
         this.book = book;
         this.context = context;
-        this.synopsisVisibility = new ObservableInt(View.INVISIBLE);
         this.synopsisColor = new ObservableInt(Color.WHITE);
         this.synopsisTextButton = new ObservableField<>();
         this.buyTextButton = new ObservableField<>();
 
+        this.synopsisColor.set(Color.WHITE);
         this.synopsisTextButton.set(context.getString(R.string.text_button_synopsis_show));
         this.buyTextButton.set(context.getString(R.string.text_button_buy));
 
@@ -67,7 +67,6 @@ public class ItemBookViewModel extends BaseObservable{
 
             List<Book> listSelectedBook= Application.selectedBook;
             if(!listSelectedBook.contains(book)){
-                this.synopsisVisibility.set(View.INVISIBLE);
                 this.synopsisColor.set(Color.WHITE);
                 this.synopsisTextButton.set(context.getString(R.string.text_button_synopsis_show));
                 this.buyTextButton.set(context.getString(R.string.text_button_buy));
@@ -108,14 +107,8 @@ public class ItemBookViewModel extends BaseObservable{
     }
 
     public void onClickShowSynopsis(View view) {
-        if(synopsisVisibility.get()==View.VISIBLE) {
-            synopsisVisibility.set(View.INVISIBLE);
-            synopsisTextButton.set(context.getString(R.string.text_button_synopsis_show));
+        Application.get(context).bus().send(new Events.ShowDialogSynopsis(getSynopsis()));
 
-        }else {
-            synopsisVisibility.set(View.VISIBLE);
-            synopsisTextButton.set(context.getString(R.string.text_button_synopsis_hide));
-        }
 
     }
 
@@ -127,7 +120,7 @@ public class ItemBookViewModel extends BaseObservable{
         }else {
             Application.selectedBook.add(book);
             this.buyTextButton.set(context.getString(R.string.text_button_buy_cancel));
-            this.synopsisColor.set(context.getColor(R.color.colorGreen));
+            this.synopsisColor.set(R.color.colorGreen);
         }
 
         for(int i = 0; i< Application.selectedBook.size(); i++){

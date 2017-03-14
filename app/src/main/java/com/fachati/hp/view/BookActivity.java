@@ -7,8 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.fachati.hp.BookAdapter;
-import com.fachati.hp.EndlessRecyclerOnScrollListener;
+import com.fachati.hp.Adapter.BookAdapter;
+import com.fachati.hp.Adapter.EndlessRecyclerOnScrollListener;
 import com.fachati.hp.R;
 import com.fachati.hp.databinding.ActivityBookBinding;
 import com.fachati.hp.model.Book;

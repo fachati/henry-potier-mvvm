@@ -41,26 +41,6 @@
                     android:scaleType="fitXY"
                     app:imageUrl="@{vm.cover}"/>
 
-                <ScrollView
-                    android:id="@+id/scroller_Synopsis_book"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@mipmap/blurbg"
-                    android:scrollbars="vertical"
-                    app:visibility="@{vm.synopsisVisibility}"
-                    android:fillViewport="true">
-
-                    <TextView
-                        android:id="@+id/Synopsis_book"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/colorWhite"
-                        android:padding="5dp"
-                        android:textSize="13dp"
-                        app:text="@{vm.synopsis}"/>
-
-                </ScrollView>
-
 
 
             </RelativeLayout>

@@ -29,7 +29,7 @@ android {
 dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies;
 
-    compile 'com.android.support:design:25.2.0'
+    compile dependencies.designe
     compile dependencies.appCompat
     compile dependencies.cardView
     compile dependencies.recyclerView
@@ -38,10 +38,11 @@ dependencies {
     compile dependencies.retrofitAdapterRxJava
     compile dependencies.picasso
     compile dependencies.rxAndroid
-    compile 'io.reactivex:rxjava:1.1.6'
+    compile dependencies.rxJava
     compile dependencies.circleImageView
 
     testCompile dependencies.jUnit
     testCompile dependencies.mockito
     testCompile dependencies.robolectric
+    androidTestCompile 'junit:junit:4.12'
 }

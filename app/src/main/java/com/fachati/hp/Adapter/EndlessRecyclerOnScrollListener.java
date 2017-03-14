@@ -1,7 +1,10 @@
-package com.fachati.hp;
+package com.fachati.hp.Adapter;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import com.fachati.hp.Application;
+import com.fachati.hp.eventBus.Events;
 
 public  class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListener {
 

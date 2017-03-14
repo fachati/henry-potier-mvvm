@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 
-import com.fachati.hp.Events;
+import com.fachati.hp.eventBus.Events;
 import com.fachati.hp.Application;
 import com.fachati.hp.model.Book;
 import com.fachati.hp.model.HpService;
@@ -161,9 +161,10 @@ public class PriceActivityViewModel implements ViewModel{
 
             }else if(offers.getOffers()[i].getType().compareTo(OfferEnum.SLICE.getText())==0
                     && (getTotalPrice() >= offers.getOffers()[i].getSliceValue())){
-                sliceTextInitialPrice.set(offers.getOffers()[i].getValue()+" €");
+                int value=getTotalPrice()/offers.getOffers()[i].getSliceValue();
+                sliceTextInitialPrice.set(offers.getOffers()[i].getValue()*value+" €");
                 sliceOfferVisibility.set(View.VISIBLE);
-                lastPrice=lastPrice-offers.getOffers()[i].getValue();
+                lastPrice=lastPrice-(offers.getOffers()[i].getValue()*value);
 
             }else if(offers.getOffers()[i].getType().compareTo(OfferEnum.PERCENTAGE.getText())==0){
                 percentageTextInitialPrice.set(offers.getOffers()[i].getValue()+" €");

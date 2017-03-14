@@ -1,4 +1,4 @@
-package com.fachati.hp;
+package com.fachati.hp.eventBus;
 
 import rx.Observable;
 import rx.subjects.PublishSubject;

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.fachati.hp.BookInPriceAdapter;
+import com.fachati.hp.Adapter.BookInPriceAdapter;
 import com.fachati.hp.R;
 import com.fachati.hp.databinding.ActivityPriceBinding;
 import com.fachati.hp.model.Book;

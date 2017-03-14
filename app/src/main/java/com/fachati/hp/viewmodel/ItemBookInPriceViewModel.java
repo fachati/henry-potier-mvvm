@@ -6,8 +6,8 @@ import android.databinding.BindingAdapter;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.fachati.hp.BookInPriceAdapter;
-import com.fachati.hp.Events;
+import com.fachati.hp.Adapter.BookInPriceAdapter;
+import com.fachati.hp.eventBus.Events;
 import com.fachati.hp.Application;
 import com.fachati.hp.R;
 import com.fachati.hp.model.Book;

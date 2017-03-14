@@ -1,10 +1,11 @@
-package com.fachati.hp;
+package com.fachati.hp.Adapter;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.fachati.hp.R;
 import com.fachati.hp.databinding.ItemBookBinding;
 import com.fachati.hp.model.Book;
 import com.fachati.hp.viewmodel.ItemBookViewModel;

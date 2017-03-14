@@ -1,12 +1,18 @@
 package com.fachati.hp.viewmodel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import com.fachati.hp.Events;
+import android.widget.TextView;
+
+import com.fachati.hp.eventBus.Events;
 import com.fachati.hp.Application;
+import com.fachati.hp.R;
 import com.fachati.hp.model.Book;
 import com.fachati.hp.model.HpService;
 import com.fachati.hp.view.PriceActivity;
@@ -34,6 +40,9 @@ public class BookActivityViewModel implements ViewModel{
     public ObservableInt errorVisibility;
     public ObservableInt buttonPurchaseVisibility;
 
+    public ObservableInt synopsisVisibility;
+    public ObservableField<String> synopsisText;
+
     private Subscription busSubscription;
 
 
@@ -42,7 +51,12 @@ public class BookActivityViewModel implements ViewModel{
         this.dataListener = dataListener;
         this.errorVisibility = new ObservableInt(View.INVISIBLE);
         this.buttonPurchaseVisibility = new ObservableInt(View.INVISIBLE);
+        this.synopsisVisibility = new ObservableInt(View.INVISIBLE);
 
+        this.synopsisText = new ObservableField<>();
+
+        TextView textView = (TextView) ((Activity) context).findViewById(R.id.text5);
+        textView.setMovementMethod(new ScrollingMovementMethod());
         busSubscription = Application.get().bus().toObserverable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -61,8 +75,14 @@ public class BookActivityViewModel implements ViewModel{
         if (o instanceof Events.ScrollDirection) {
             if(((Events.ScrollDirection) o).direction==0)
                 buttonPurchaseVisibility.set(View.INVISIBLE);
+
             else if(((Events.ScrollDirection) o).direction==1)
                 buttonPurchaseVisibility.set(View.VISIBLE);
+
+        }else if (o instanceof Events.ShowDialogSynopsis) {
+            this.synopsisVisibility.set(View.VISIBLE);
+            this.synopsisText.set(((Events.ShowDialogSynopsis) o).synopsis);
+
         }
     }
 
@@ -93,7 +113,6 @@ public class BookActivityViewModel implements ViewModel{
 
                     @Override
                     public void onError(Throwable error) {
-                        //Log.e(TAG,  error.toString());
                         errorVisibility.set(View.VISIBLE);
                         buttonPurchaseVisibility.set(View.INVISIBLE);
                     }
@@ -101,7 +120,7 @@ public class BookActivityViewModel implements ViewModel{
                     @Override
                     public void onNext(List<Book> books) {
                         for(int i=0;i<books.size();i++){
-                            Log.i(TAG, "Repos loaded " + books.get(i).toString());
+                            Log.i(TAG, books.get(i).toString());
                         }
                         buttonPurchaseVisibility.set(View.VISIBLE);
                         BookActivityViewModel.this.books = books;
@@ -117,6 +136,12 @@ public class BookActivityViewModel implements ViewModel{
         context.startActivity(new Intent(context, PriceActivity.class));
 
     }
+
+    public void onclickClose(View view) {
+        this.synopsisVisibility.set(View.INVISIBLE);
+
+    }
+
 
 
 }

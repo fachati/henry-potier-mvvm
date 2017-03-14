@@ -14,6 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -49,9 +52,46 @@
             android:scrollbars="vertical"
             tools:listitem="@layout/item_book"/>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#80000000"
+            app:visibility="@{vm.synopsisVisibility}">
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="400dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text5"
+                    android:padding="10dp"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:keepScreenOn="true"
+                    android:scrollbars="vertical"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14dp"
+                    android:background="@drawable/layout_rounded_border_top"
+                    app:text="@{vm.synopsisText}"/>
 
 
+                <Button
+                    android:text="Fermer"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14dp"
+                    android:onClick="@{vm.onclickClose}"
+                    android:background="@drawable/layout_rounded_border_bottom"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content" />
 
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

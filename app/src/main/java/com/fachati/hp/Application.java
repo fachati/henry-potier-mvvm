@@ -2,6 +2,7 @@ package com.fachati.hp;
 
 import android.content.Context;
 
+import com.fachati.hp.eventBus.RxBus;
 import com.fachati.hp.model.Book;
 import com.fachati.hp.model.HpService;
 
